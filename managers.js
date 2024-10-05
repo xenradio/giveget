@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const companyIdentifier = localStorage.getItem("company_identifier");
     if (companyIdentifier) {
       const encodedIdentifier = encodeURIComponent(companyIdentifier);
-      const membersApiUrl = `https://xrzc-g8gr-8fko.n7c.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`; //new workspace
+      const membersApiUrl = `https://xrzc-g8gr-8fko.n7d.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`; //new workspace
       const managersApiUrl = `https://xrzc-g8gr-8fko.n7d.xano.io/api:uoqATYAX/managers?company_identifier=${encodedIdentifier}`; //new workspace
 
       Promise.all([fetch(membersApiUrl), fetch(managersApiUrl)])
@@ -196,8 +196,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const companyIdentifier = localStorage.getItem("company_identifier");
     if (companyIdentifier) {
       const encodedIdentifier = encodeURIComponent(companyIdentifier);
-      const membersApiUrl = `https://xrzc-g8gr-8fko.n7c.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`; //new workspcase
-      const managersApiUrl = `https://xrzc-g8gr-8fko.n7c.xano.io/api:uoqATYAX/managers?company_identifier=${encodedIdentifier}`; //new workspace
+      const membersApiUrl = `https://xrzc-g8gr-8fko.n7d.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`; //new workspcase
+      const managersApiUrl = `https://xrzc-g8gr-8fko.n7d.xano.io/api:uoqATYAX/managers?company_identifier=${encodedIdentifier}`; //new workspace
 
       try {
         const [membersResponse, managersResponse] = await Promise.all([
@@ -335,8 +335,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (companyIdentifier) {
       const encodedIdentifier = encodeURIComponent(companyIdentifier);
-      const membersApiUrl = `https://xrzc-g8gr-8fko.n7c.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`; //new workspace
-      const managersApiUrl = `https://xrzc-g8gr-8fko.n7c.xano.io/api:uoqATYAX/managers?company_identifier=${encodedIdentifier}`; //new workspace
+      const membersApiUrl = `https://xrzc-g8gr-8fko.n7d.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`; //new workspace
+      const managersApiUrl = `https://xrzc-g8gr-8fko.n7d.xano.io/api:uoqATYAX/managers?company_identifier=${encodedIdentifier}`; //new workspace
 
       try {
         const [membersResponse, managersResponse] = await Promise.all([
@@ -549,7 +549,7 @@ document.addEventListener("DOMContentLoaded", function () {
       payment_id: uniquePaymentId
     };
 
-    fetch("https://xrzc-g8gr-8fko.n7c.xano.io/api:UQuTJ3vx/sessions", { //new ws
+    fetch("https://xrzc-g8gr-8fko.n7d.xano.io/api:UQuTJ3vx/sessions", { //new ws
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -561,7 +561,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (data.result && data.result.url) {
           const paymentIntent = data.result.payment_intent;
           // Make the GET request to retrieve the payment intent details
-          fetch(`https://xrzc-g8gr-8fko.n7c.xano.io/api:UQuTJ3vx/payment_Intent?payment_intent=${paymentIntent}`, { //new ws
+          fetch(`https://xrzc-g8gr-8fko.n7d.xano.io/api:UQuTJ3vx/payment_Intent?payment_intent=${paymentIntent}`, { //new ws
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -698,7 +698,7 @@ function fetchData(retries = 5, interval = 1000) {
   const companyIdentifier = localStorage.getItem("company_identifier");
   if (companyIdentifier) {
     const encodedIdentifier = encodeURIComponent(companyIdentifier);
-    const apiUrl = `https://xrzc-g8gr-8fko.n7c.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`; //new ws
+    const apiUrl = `https://xrzc-g8gr-8fko.n7d.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`; //new ws
     fetch(apiUrl)
       .then((response) => response.json())
       .then(processData)
@@ -852,7 +852,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function fetchData(retries = 5, interval = 1000) {
     const companyIdentifier = localStorage.getItem("company_identifier");
     if (companyIdentifier) {
-      const apiUrl = `https://xrzc-g8gr-8fko.n7c.xano.io/api:6QL-WByo/metrics?company_identifier=${encodeURIComponent(companyIdentifier)}`; //new ws
+      const apiUrl = `https://xrzc-g8gr-8fko.n7d.xano.io/api:6QL-WByo/metrics?company_identifier=${encodeURIComponent(companyIdentifier)}`; //new ws
 
       fetch(apiUrl)
         .then((response) => response.json())
@@ -905,7 +905,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    const apiUrl = `https://xrzc-g8gr-8fko.n7c.xano.io/api:wXyyqNPC/popular_responses?company_identifier=${encodeURIComponent(companyIdentifier)}`; //new ws
+    const apiUrl = `https://xrzc-g8gr-8fko.n7d.xano.io/api:wXyyqNPC/popular_responses?company_identifier=${encodeURIComponent(companyIdentifier)}`; //new ws
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
@@ -1174,7 +1174,7 @@ function fetchMemberData(retries = 5, delay = 2000) {
 
 // Proceed with fetch if the company identifier is found
 const encodedIdentifier = encodeURIComponent(companyIdentifier);
-fetch(`https://xrzc-g8gr-8fko.n7c.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`) //new ws
+fetch(`https://xrzc-g8gr-8fko.n7d.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`) //new ws
   .then(response => response.json())
   .then(data => {
     let donated = 0;
@@ -1327,7 +1327,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       fetch(
-        `https://xrzc-g8gr-8fko.n7c.xano.io/api:uoqATYAX/amount_time?company_identifier=${encodeURIComponent( //new ws
+        `https://xrzc-g8gr-8fko.n7d.xano.io/api:uoqATYAX/amount_time?company_identifier=${encodeURIComponent( //new ws
           companyIdentifier
         )}`,
         {
