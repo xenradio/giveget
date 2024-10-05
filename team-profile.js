@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
       const data = { name, email };
   
-      fetch("https://xqsu-ttbr-nccs.n7c.xano.io/api:wXyyqNPC/edit_members", {
+      fetch("https://xrzc-g8gr-8fko.n7d.xano.io/api:wXyyqNPC/edit_members", { //new workspace
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
   
-    fetch("https://xqsu-ttbr-nccs.n7c.xano.io/api:wXyyqNPC/auth/me", {
+    fetch("https://xrzc-g8gr-8fko.n7d.xano.io/api:wXyyqNPC/auth/me", { // new workspace
       method: "GET",
       headers: {
         Authorization: `Bearer ${authToken}`,
