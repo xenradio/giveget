@@ -35,8 +35,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const companyIdentifier = localStorage.getItem("company_identifier");
     if (companyIdentifier) {
       const encodedIdentifier = encodeURIComponent(companyIdentifier);
-      const membersApiUrl = `https://xqsu-ttbr-nccs.n7c.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`;
-      const managersApiUrl = `https://xqsu-ttbr-nccs.n7c.xano.io/api:uoqATYAX/managers?company_identifier=${encodedIdentifier}`;
+      const membersApiUrl = `https://xrzc-g8gr-8fko.n7c.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`; //new workspace
+      const managersApiUrl = `https://xrzc-g8gr-8fko.n7d.xano.io/api:uoqATYAX/managers?company_identifier=${encodedIdentifier}`; //new workspace
 
       Promise.all([fetch(membersApiUrl), fetch(managersApiUrl)])
         .then((responses) => Promise.all(responses.map((response) => response.json())))
@@ -196,8 +196,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const companyIdentifier = localStorage.getItem("company_identifier");
     if (companyIdentifier) {
       const encodedIdentifier = encodeURIComponent(companyIdentifier);
-      const membersApiUrl = `https://xqsu-ttbr-nccs.n7c.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`;
-      const managersApiUrl = `https://xqsu-ttbr-nccs.n7c.xano.io/api:uoqATYAX/managers?company_identifier=${encodedIdentifier}`;
+      const membersApiUrl = `https://xrzc-g8gr-8fko.n7c.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`; //new workspcase
+      const managersApiUrl = `https://xrzc-g8gr-8fko.n7c.xano.io/api:uoqATYAX/managers?company_identifier=${encodedIdentifier}`; //new workspace
 
       try {
         const [membersResponse, managersResponse] = await Promise.all([
@@ -335,8 +335,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (companyIdentifier) {
       const encodedIdentifier = encodeURIComponent(companyIdentifier);
-      const membersApiUrl = `https://xqsu-ttbr-nccs.n7c.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`;
-      const managersApiUrl = `https://xqsu-ttbr-nccs.n7c.xano.io/api:uoqATYAX/managers?company_identifier=${encodedIdentifier}`;
+      const membersApiUrl = `https://xrzc-g8gr-8fko.n7c.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`; //new workspace
+      const managersApiUrl = `https://xrzc-g8gr-8fko.n7c.xano.io/api:uoqATYAX/managers?company_identifier=${encodedIdentifier}`; //new workspace
 
       try {
         const [membersResponse, managersResponse] = await Promise.all([
@@ -549,7 +549,7 @@ document.addEventListener("DOMContentLoaded", function () {
       payment_id: uniquePaymentId
     };
 
-    fetch("https://xqsu-ttbr-nccs.n7c.xano.io/api:UQuTJ3vx/sessions", {
+    fetch("https://xrzc-g8gr-8fko.n7c.xano.io/api:UQuTJ3vx/sessions", { //new ws
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -561,7 +561,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (data.result && data.result.url) {
           const paymentIntent = data.result.payment_intent;
           // Make the GET request to retrieve the payment intent details
-          fetch(`https://xqsu-ttbr-nccs.n7c.xano.io/api:UQuTJ3vx/payment_Intent?payment_intent=${paymentIntent}`, {
+          fetch(`https://xrzc-g8gr-8fko.n7c.xano.io/api:UQuTJ3vx/payment_Intent?payment_intent=${paymentIntent}`, { //new ws
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -651,7 +651,7 @@ document.getElementById('uploadLogoBtn').addEventListener('click', function() {
       formData.append('logo', file);
       formData.append('company_identifier', localStorage.getItem('company_identifier'));
 
-      fetch('https://xqsu-ttbr-nccs.n7c.xano.io/api:uoqATYAX/managers_logo', {
+      fetch('https://xrzc-g8gr-8fko.n7d.xano.io/api:uoqATYAX/managers_logo', { //new workspace
           method: 'POST',
           body: formData
       })
@@ -670,7 +670,7 @@ document.getElementById('uploadLogoBtn').addEventListener('click', function() {
 
 //Show logo
 function fetchAndDisplayImage(companyIdentifier = localStorage.getItem('company_identifier')) {
-  fetch(`https://xqsu-ttbr-nccs.n7c.xano.io/api:uoqATYAX/managers?company_identifier=${companyIdentifier}`)
+  fetch(`https://xrzc-g8gr-8fko.n7d.xano.io/api:uoqATYAX/managers?company_identifier=${companyIdentifier}`) //new workspace
     .then(response => response.json())
     .then(data => {
       let companyData = data.find(company => company.company_identifier === companyIdentifier);
@@ -698,7 +698,7 @@ function fetchData(retries = 5, interval = 1000) {
   const companyIdentifier = localStorage.getItem("company_identifier");
   if (companyIdentifier) {
     const encodedIdentifier = encodeURIComponent(companyIdentifier);
-    const apiUrl = `https://xqsu-ttbr-nccs.n7c.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`;
+    const apiUrl = `https://xrzc-g8gr-8fko.n7c.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`; //new ws
     fetch(apiUrl)
       .then((response) => response.json())
       .then(processData)
@@ -852,7 +852,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function fetchData(retries = 5, interval = 1000) {
     const companyIdentifier = localStorage.getItem("company_identifier");
     if (companyIdentifier) {
-      const apiUrl = `https://xqsu-ttbr-nccs.n7c.xano.io/api:6QL-WByo/metrics?company_identifier=${encodeURIComponent(companyIdentifier)}`;
+      const apiUrl = `https://xrzc-g8gr-8fko.n7c.xano.io/api:6QL-WByo/metrics?company_identifier=${encodeURIComponent(companyIdentifier)}`; //new ws
 
       fetch(apiUrl)
         .then((response) => response.json())
@@ -905,7 +905,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    const apiUrl = `https://xqsu-ttbr-nccs.n7c.xano.io/api:wXyyqNPC/popular_responses?company_identifier=${encodeURIComponent(companyIdentifier)}`;
+    const apiUrl = `https://xrzc-g8gr-8fko.n7c.xano.io/api:wXyyqNPC/popular_responses?company_identifier=${encodeURIComponent(companyIdentifier)}`; //new ws
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
@@ -1174,7 +1174,7 @@ function fetchMemberData(retries = 5, delay = 2000) {
 
 // Proceed with fetch if the company identifier is found
 const encodedIdentifier = encodeURIComponent(companyIdentifier);
-fetch(`https://xqsu-ttbr-nccs.n7c.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`)
+fetch(`https://xrzc-g8gr-8fko.n7c.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`) //new ws
   .then(response => response.json())
   .then(data => {
     let donated = 0;
@@ -1294,130 +1294,9 @@ logoutButton.addEventListener('click', function() {
 });
 
 
+//---------------------------
 //Update amount and countdown
-/* document.addEventListener("DOMContentLoaded", function () {
-  const confirmBtn = document.getElementById("confirmBtn");
-  const amountSpan = document.querySelector('span[xn-data="amount"]');
-  const expireSpan = document.querySelector('span[xn-data="expire"]');
-  let interval;
-
-  function formatDate(dateStr) {
-    const parts = dateStr.split("-");
-    if (parts.length === 3) {
-      return `${parts[2]}-${parts[0]}-${parts[1]}`;
-    }
-    return null;
-  }
-
-    function fetchData(retryCount = 0) {
-      const companyIdentifier = localStorage.getItem("company_identifier");
-      if (!companyIdentifier) {
-          if (retryCount < 5) {  // Retry up to 5 times
-              console.log("Retrying to fetch company identifier...");
-              setTimeout(() => fetchData(retryCount + 1), 1000);  // Wait 1 second before retrying
-          } else {
-              console.error("Company identifier not available in local storage after several retries.");
-          }
-          return;
-      }
-
-    fetch(
-      `https://xqsu-ttbr-nccs.n7c.xano.io/api:uoqATYAX/amount_time?company_identifier=${encodeURIComponent(
-        companyIdentifier
-      )}`,
-      {
-        headers: { "Cache-Control": "no-cache" },
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        //console.log("Fetched data:", data);
-        if (data.length > 0 && data[0].amount !== undefined) {
-          amountSpan.textContent = `A$${data[0].amount}`;
-          if (data[0].deadline) {
-            updateCountdown(data[0].deadline);
-          } else {
-            expireSpan.textContent = "No deadline set";
-          }
-        } else {
-          amountSpan.textContent = "A$0";
-          expireSpan.textContent = "0:0:0";
-        }
-      })
-      .catch((error) => {
-        console.error("Fetch error:", error);
-      });
-  }
-
-  function updateCountdown(deadline) {
-    clearInterval(interval);
-    const deadlineDate = new Date(deadline + "T00:00:00Z");
-    console.log("Parsed Deadline Date:", deadlineDate.toISOString());
-
-    const update = () => {
-      const now = new Date();
-      const timeLeft = deadlineDate.getTime() - now.getTime();
-      if (timeLeft > 0) {
-        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-        const hours = Math.floor(
-          (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        expireSpan.textContent = `${days}d : ${hours}h : ${minutes}m`;
-      } else {
-        expireSpan.textContent = "Expired";
-        clearInterval(interval);
-      }
-    };
-
-    interval = setInterval(update, 60000);
-    update();
-  }
-
-  function sendFormData() {
-    const amount = document.getElementById("teamAmount").value;
-    const deadline = document.getElementById("teamDate").value
-      ? formatDate(document.getElementById("teamDate").value)
-      : null;
-
-    if (!deadline) {
-      alert("Invalid date format. Please use MM-DD-YYYY.");
-      return;
-    }
-
-    const data = {
-      company_identifier: localStorage.getItem("company_identifier"),
-      amount: amount,
-      deadline: deadline,
-    };
-
-    console.log("Data being sent for update:", data);
-
-    fetch("https://xqsu-ttbr-nccs.n7c.xano.io/api:uoqATYAX/edit_manager", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Cache-Control": "no-cache",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Response after POST:", data);
-        fetchData();
-      })
-      .catch((error) => {
-        console.error("Error submitting form:", error);
-      });
-  }
-
-  confirmBtn.addEventListener("click", function (event) {
-    event.preventDefault();
-    sendFormData();
-  });
-
-  fetchData();
-}); */
+//---------------------------
 
 document.addEventListener("DOMContentLoaded", function () {
   // Delay the execution of the script by 1000 milliseconds (1 second)
@@ -1448,7 +1327,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       fetch(
-        `https://xqsu-ttbr-nccs.n7c.xano.io/api:uoqATYAX/amount_time?company_identifier=${encodeURIComponent(
+        `https://xrzc-g8gr-8fko.n7c.xano.io/api:uoqATYAX/amount_time?company_identifier=${encodeURIComponent( //new ws
           companyIdentifier
         )}`,
         {
@@ -1519,7 +1398,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       console.log("Data being sent for update:", data);
 
-      fetch("https://xqsu-ttbr-nccs.n7c.xano.io/api:uoqATYAX/edit_manager", {
+      fetch("https://xrzc-g8gr-8fko.n7c.xano.io/api:uoqATYAX/edit_manager", { //new ws
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -1608,7 +1487,7 @@ document.addEventListener("DOMContentLoaded", function () {
     confirmBtn.disabled = true; // Disable the button to prevent multiple clicks
     console.log("Button disabled");
 
-    fetch("https://xqsu-ttbr-nccs.n7c.xano.io/api:uoqATYAX/create_manager", {
+    fetch("https://xrzc-g8gr-8fko.n7c.xano.io/api:uoqATYAX/create_manager", { //new ws
       method: "POST",
       headers: {
         "Content-Type": "application/json",
