@@ -1398,7 +1398,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       console.log("Data being sent for update:", data);
 
-      fetch("https://xrzc-g8gr-8fko.n7c.xano.io/api:uoqATYAX/edit_manager", { //new ws
+      fetch("https://xrzc-g8gr-8fko.n7d.xano.io/api:uoqATYAX/edit_manager", { //new ws
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -1487,7 +1487,7 @@ document.addEventListener("DOMContentLoaded", function () {
     confirmBtn.disabled = true; // Disable the button to prevent multiple clicks
     console.log("Button disabled");
 
-    fetch("https://xrzc-g8gr-8fko.n7c.xano.io/api:uoqATYAX/create_manager", { //new ws
+    fetch("https://xrzc-g8gr-8fko.n7d.xano.io/api:uoqATYAX/create_manager", { //new ws
       method: "POST",
       headers: {
         "Content-Type": "application/json",
