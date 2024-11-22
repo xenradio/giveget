@@ -43,6 +43,6 @@ document.addEventListener("DOMContentLoaded", function () {
       localStorage.setItem("bankDonationData", JSON.stringify(dataToPass));
   
       // Redirect to the new page (replace with your actual URL)
-      window.location.href = "/your-new-page-url"; // e.g., "/bank-donation-page.html"
+      //window.location.href = "/your-new-page-url"; // e.g., "/bank-donation-page.html"
     });
   });
