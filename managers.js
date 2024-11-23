@@ -320,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //History table 
-document.addEventListener("DOMContentLoaded", function () {
+/*ocument.addEventListener("DOMContentLoaded", function () {
   const updateButton = document.getElementById("updateButton");
 
   async function fetchData(retries = 5, interval = 1000) {
@@ -447,6 +447,181 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
           <div class="char_donation-amount">
             <div class="char_donation-number">A$${charity.totalDonation}</div>
+            <div>Total amount donated</div>
+          </div>
+        </div>`;
+      donatedTable.appendChild(wrapper);
+    });
+
+    if (Object.keys(charityMap).length > 0) {
+      document.getElementById("donationHistory").style.display = "flex";
+    } else {
+      document.getElementById("donationHistory").style.display = "none";
+    }
+  }
+
+  fetchData();
+  updateButton.addEventListener("click", function () {
+    fetchData();
+  });
+});*/
+document.addEventListener("DOMContentLoaded", function () {
+  const updateButton = document.getElementById("updateButton");
+
+  async function fetchData(retries = 5, interval = 1000) {
+    let companyIdentifier = localStorage.getItem("company_identifier");
+    let attempts = 0;
+
+    while (!companyIdentifier && attempts < retries) {
+      await new Promise((resolve) => setTimeout(resolve, interval)); // Wait for the interval before retrying
+      companyIdentifier = localStorage.getItem("company_identifier");
+      attempts++;
+    }
+
+    if (companyIdentifier) {
+      const encodedIdentifier = encodeURIComponent(companyIdentifier);
+      const membersApiUrl = `https://xrzc-g8gr-8fko.n7d.xano.io/api:wXyyqNPC/members?company_identifier=${encodedIdentifier}`; //new workspace
+      const managersApiUrl = `https://xrzc-g8gr-8fko.n7d.xano.io/api:uoqATYAX/managers?company_identifier=${encodedIdentifier}`; //new workspace
+
+      try {
+        const [membersResponse, managersResponse] = await Promise.all([
+          fetch(membersApiUrl),
+          fetch(managersApiUrl),
+        ]);
+
+        const membersData = await membersResponse.json();
+        const managersData = await managersResponse.json();
+
+        processPaidDonations(membersData, managersData);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    } else {
+      console.error(
+        "Failed to retrieve company_identifier from local storage after multiple retries."
+      );
+    }
+  }
+
+  function processPaidDonations(membersData, managersData) {
+    const paidDonationIds = new Set();
+    const donationDates = {}; // Store donation dates by donation ID
+    const donationInfo = {}; // Store additional donation info by donation ID
+
+    // Iterate through each manager to gather paid donation IDs and their corresponding dates
+    managersData.forEach((manager) => {
+      manager.donations.forEach((donation) => {
+        const ids = donation.donation_ids.split(",").map((id) => id.trim());
+        ids.forEach((id) => {
+          if (manager.payment_status === "paid") {
+            paidDonationIds.add(id);
+          }
+          donationDates[id] = donation.payment_date; // Store the payment date by donation ID
+          donationInfo[id] = {
+            payment_id: donation.payment_id,
+            bank_transfer_status: donation.bank_transfer_status,
+          };
+        });
+      });
+    });
+
+    const charityMap = {};
+
+    membersData.forEach((member) => {
+      (member.donated_to || [])
+        .flat()
+        .forEach((charity) => {
+          if (paidDonationIds.has(charity.donation_id)) {
+            if (!charityMap[charity.name]) {
+              charityMap[charity.name] = {
+                donations: [],
+                totalDonation: 0,
+                logo:
+                  charity.logo_url ||
+                  "https://assets-global.website-files.com/65debf94c45187dc7c67abf2/6630bf08dad504d24be09767_charity_default.svg",
+              };
+            }
+            charityMap[charity.name].donations.push({
+              name: member.name,
+              email: member.email,
+              amount: charity.amount,
+              donation_id: charity.donation_id,
+              payment_date: donationDates[charity.donation_id] || "", // Use the stored date or empty string if not found
+              payment_id:
+                donationInfo[charity.donation_id]?.payment_id || "",
+              bank_transfer_status:
+                donationInfo[charity.donation_id]?.bank_transfer_status || "",
+            });
+            charityMap[charity.name].totalDonation += charity.amount;
+          }
+        });
+    });
+
+    updatePaidUI(charityMap);
+  }
+
+  function updatePaidUI(charityMap) {
+    const donatedTable = document.getElementById("donatedTable");
+    donatedTable.innerHTML = "";
+
+    Object.entries(charityMap).forEach(([charName, charity]) => {
+      const showBTPending = charity.donations.some(
+        (donation) =>
+          donation.payment_id.startsWith("bt") &&
+          donation.bank_transfer_status === "pending"
+      );
+
+      const wrapper = document.createElement("div");
+      wrapper.classList.add("char_table-wrapper");
+      wrapper.innerHTML = `
+        <div class="char_name-wrapper">
+          <img loading="lazy" src="${charity.logo}" alt="" class="char_image">
+          <a href="#" class="char_link w-inline-block" target="_blank">
+            <div>${charName}</div>
+            <div class="char_link-icon w-embed">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v -6"></path>
+                <path d="M11 13l9 -9"></path>
+                <path d="M15 4h5v5"></path>
+              </svg>
+            </div>
+          </a>
+        </div>
+        <table class="char-table_component">
+          <thead class="char-table_head">
+            <tr class="char-table_row is-ua">
+              <th class="char-table_header">Team member name</th>
+              <th class="char-table_header">Team member email</th>
+              <th class="char-table_header">Amount donated</th>
+            </tr>
+          </thead>
+          <tbody class="char-table_body">
+            ${charity.donations
+              .map(
+                (donation) => `<tr class="char-table_row is-ua">
+                  <td class="char-table_cell">${donation.name} <span class="donation_id">${donation.donation_id}</span></td>
+                  <td class="char-table_cell"><a href="mailto:${donation.email}">${donation.email}</a></td>
+                  <td class="char-table_cell">A$${donation.amount}</td>
+                </tr>`
+              )
+              .join("")}
+          </tbody>
+        </table>
+        <div class="char_donation-wrapper">
+          <div class="donation_details">
+            <img loading="lazy" src="https://cdn.prod.website-files.com/65debf94c45187dc7c67abf2/664366ba679054e9dafb8127_heart.svg" alt="" class="donated_icon">
+            <div>Donated<br>at <span id="donationDate">${
+              charity.donations[0]?.payment_date || ""
+            }</span></div>
+          </div>
+          <div class="char_donation-amount">
+            <div class="bt_pending"${
+              showBTPending ? '' : ' style="display:none;"'
+            }>Pending bank transfer</div>
+            <div class="char_donation-number">A$${
+              charity.totalDonation
+            }</div>
             <div>Total amount donated</div>
           </div>
         </div>`;
