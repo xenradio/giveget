@@ -320,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //History table 
-/*ocument.addEventListener("DOMContentLoaded", function () {
+/*document.addEventListener("DOMContentLoaded", function () {
   const updateButton = document.getElementById("updateButton");
 
   async function fetchData(retries = 5, interval = 1000) {
