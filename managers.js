@@ -441,6 +441,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </tbody>
         </table>
         <div class="char_donation-wrapper">
+          <div class="bt_pending">Pending</div>
           <div class="donation_details">
             <img loading="lazy" src="https://cdn.prod.website-files.com/65debf94c45187dc7c67abf2/664366ba679054e9dafb8127_heart.svg" alt="" class="donated_icon">
             <div>Donated<br>at <span id="donationDate">${charity.donations[0]?.payment_date || ''}</span></div>
