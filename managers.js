@@ -320,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //History table 
-/*document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
   const updateButton = document.getElementById("updateButton");
 
   async function fetchData(retries = 5, interval = 1000) {
@@ -464,7 +464,7 @@ document.addEventListener("DOMContentLoaded", function () {
   updateButton.addEventListener("click", function () {
     fetchData();
   });
-});*/
+});
 
 //Stripe checkout 
 document.addEventListener("DOMContentLoaded", function () {
