@@ -319,7 +319,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-//History table 
+//History table
 document.addEventListener("DOMContentLoaded", function () {
   const updateButton = document.getElementById("updateButton");
 
@@ -328,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let attempts = 0;
 
     while (!companyIdentifier && attempts < retries) {
-      await new Promise(resolve => setTimeout(resolve, interval)); // Wait for the interval before retrying
+      await new Promise((resolve) => setTimeout(resolve, interval)); // Wait for the interval before retrying
       companyIdentifier = localStorage.getItem("company_identifier");
       attempts++;
     }
@@ -352,7 +352,9 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error fetching data: ", error);
       }
     } else {
-      console.error("Failed to retrieve company_identifier from local storage after multiple retries.");
+      console.error(
+        "Failed to retrieve company_identifier from local storage after multiple retries."
+      );
     }
   }
 
@@ -361,11 +363,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const donationDates = {}; // Store donation dates by donation ID
 
     // Iterate through each manager to gather paid donation IDs and their corresponding dates
-    managersData.forEach(manager => {
+    managersData.forEach((manager) => {
       if (manager.payment_status === "paid") {
-        manager.donations.forEach(donation => {
-          const ids = donation.donation_ids.split(',').map(id => id.trim());
-          ids.forEach(id => {
+        manager.donations.forEach((donation) => {
+          const ids = donation.donation_ids.split(",").map((id) => id.trim());
+          ids.forEach((id) => {
             paidDonationIds.add(id);
             donationDates[id] = donation.payment_date; // Store the payment date by donation ID
           });
@@ -375,14 +377,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const charityMap = {};
 
-    membersData.forEach(member => {
-      (member.donated_to || []).flat().forEach(charity => {
+    membersData.forEach((member) => {
+      (member.donated_to || []).flat().forEach((charity) => {
         if (paidDonationIds.has(charity.donation_id)) {
           if (!charityMap[charity.name]) {
             charityMap[charity.name] = {
               donations: [],
               totalDonation: 0,
-              logo: charity.logo_url || "https://assets-global.website-files.com/65debf94c45187dc7c67abf2/6630bf08dad504d24be09767_charity_default.svg",
+              logo:
+                charity.logo_url ||
+                "https://assets-global.website-files.com/65debf94c45187dc7c67abf2/6630bf08dad504d24be09767_charity_default.svg",
             };
           }
           charityMap[charity.name].donations.push({
@@ -390,7 +394,7 @@ document.addEventListener("DOMContentLoaded", function () {
             email: member.email,
             amount: charity.amount,
             donation_id: charity.donation_id,
-            payment_date: donationDates[charity.donation_id] || '', // Use the stored date or empty string if not found
+            payment_date: donationDates[charity.donation_id] || "", // Use the stored date or empty string if not found
           });
           charityMap[charity.name].totalDonation += charity.amount;
         }
@@ -402,7 +406,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function updatePaidUI(charityMap) {
     const donatedTable = document.getElementById("donatedTable");
-    donatedTable.innerHTML = '';
+    donatedTable.innerHTML = "";
 
     Object.entries(charityMap).forEach(([charName, charity]) => {
       const wrapper = document.createElement("div");
@@ -431,20 +435,24 @@ document.addEventListener("DOMContentLoaded", function () {
             </tr>
           </thead>
           <tbody class="char-table_body">
-            ${charity.donations.map(
-              donation => `<tr class="char-table_row is-ua">
+            ${charity.donations
+              .map(
+                (donation) => `<tr class="char-table_row is-ua">
                 <td class="char-table_cell">${donation.name} <span class="donation_id">${donation.donation_id}</span></td>
                 <td class="char-table_cell"><a href="mailto:${donation.email}">${donation.email}</a></td>
                 <td class="char-table_cell">A$${donation.amount}</td>
               </tr>`
-            ).join("")}
+              )
+              .join("")}
           </tbody>
         </table>
         <div class="char_donation-wrapper">
-          <div class="bt_pending">Pending</div>
+          <div class="bt_pending">Pending bank transfer</div>
           <div class="donation_details">
             <img loading="lazy" src="https://cdn.prod.website-files.com/65debf94c45187dc7c67abf2/664366ba679054e9dafb8127_heart.svg" alt="" class="donated_icon">
-            <div>Donated<br>at <span id="donationDate">${charity.donations[0]?.payment_date || ''}</span></div>
+            <div>Donated<br>at <span id="donationDate">${
+              charity.donations[0]?.payment_date || ""
+            }</span></div>
           </div>
           <div class="char_donation-amount">
             <div class="char_donation-number">A$${charity.totalDonation}</div>
@@ -465,6 +473,77 @@ document.addEventListener("DOMContentLoaded", function () {
   updateButton.addEventListener("click", function () {
     fetchData();
   });
+});
+
+//Pending tag visibility
+document.addEventListener("DOMContentLoaded", function () {
+  function updateBTPendingElements() {
+    const companyIdentifier = localStorage.getItem("company_identifier");
+
+    if (companyIdentifier) {
+      const encodedIdentifier = encodeURIComponent(companyIdentifier);
+      const managersApiUrl = `https://xrzc-g8gr-8fko.n7d.xano.io/api:uoqATYAX/managers?company_identifier=${encodedIdentifier}`;
+
+      fetch(managersApiUrl)
+        .then((response) => response.json())
+        .then((managersData) => {
+          const btPendingDonationIds = new Set();
+
+          // Iterate over managersData to find the relevant donation_ids
+          managersData.forEach((manager) => {
+            // Ensure case-insensitive comparison for bank_transfer_status
+            if (
+              manager.donations &&
+              manager.bank_transfer_status &&
+              manager.bank_transfer_status.toLowerCase() === "pending"
+            ) {
+              manager.donations.forEach((donation) => {
+                if (String(donation.payment_id).startsWith("bt")) {
+                  // Extract donation_ids from the donation
+                  const ids = donation.donation_ids
+                    .split(",")
+                    .map((id) => id.trim());
+                  ids.forEach((id) => {
+                    btPendingDonationIds.add(id);
+                  });
+                }
+              });
+            }
+          });
+
+          // For each charity (char_table-wrapper), check if any donation_id matches
+          const charTableWrappers = document.querySelectorAll(
+            ".char_table-wrapper"
+          );
+          charTableWrappers.forEach((wrapper) => {
+            const donationIdElements = wrapper.querySelectorAll(".donation_id");
+            let hasBtPendingDonation = false;
+            donationIdElements.forEach((span) => {
+              if (btPendingDonationIds.has(span.textContent.trim())) {
+                hasBtPendingDonation = true;
+              }
+            });
+
+            const btPendingElement = wrapper.querySelector(".bt_pending");
+            if (btPendingElement) {
+              if (hasBtPendingDonation) {
+                btPendingElement.style.display = "block"; // Or your preferred display style
+              } else {
+                btPendingElement.style.display = "none";
+              }
+            }
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching managers data:", error);
+        });
+    } else {
+      console.error("Company identifier not found in localStorage.");
+    }
+  }
+
+  // Delay execution to ensure the main script has populated the table
+  setTimeout(updateBTPendingElements, 2000); // Adjust the timeout as needed
 });
 
 //Stripe checkout 
