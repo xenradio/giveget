@@ -414,7 +414,7 @@ document.addEventListener("DOMContentLoaded", function () {
       wrapper.innerHTML = `
         <div class="char_name-wrapper">
           <img loading="lazy" src="${charity.logo}" alt="" class="char_image">
-          <a href="#" class="char_link w-inline-block" target="_blank">
+          <a href="${charity.link}" class="char_link w-inline-block" target="_blank">
             <div>${charName}</div>
             <div class="char_link-icon w-embed">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
